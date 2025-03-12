@@ -71,12 +71,12 @@ contract UniswapV3LiquidityManagerTest is Test {
         assertTrue(tokenId > 0, "Liquidity mint failed");
         // vm.prank(0x0DB63C9613b3BECf644A298AfECBa450795f612B);
         IUniswapV3NonfungiblePositionManager(POSITION_MANAGER).approve(
-            address(lm),
+            address(liquidityManager),
             tokenId
         );
 
         vm.prank(0x0DB63C9613b3BECf644A298AfECBa450795f612B);
-        lm.burnLiquidity(tokenId, liquidity);
+        liquidityManager.burnLiquidity(tokenId, liquidity);
     }
 
     function testRebalanceLiquidity() public {
