@@ -65,17 +65,12 @@ contract UniswapV3LiquidityManagerTest is Test {
             10000
         );
 
-        // UniswapV3LiquidityManager lm = UniswapV3LiquidityManager(
-        //     0xCa316852334D35b3FB94379a86a6EEfAca49F9F0
-        // );
         assertTrue(tokenId > 0, "Liquidity mint failed");
-        // vm.prank(0x0DB63C9613b3BECf644A298AfECBa450795f612B);
         IUniswapV3NonfungiblePositionManager(POSITION_MANAGER).approve(
             address(liquidityManager),
             tokenId
         );
 
-        vm.prank(0x0DB63C9613b3BECf644A298AfECBa450795f612B);
         liquidityManager.burnLiquidity(tokenId, liquidity);
     }
 
