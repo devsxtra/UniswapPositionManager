@@ -189,20 +189,6 @@ contract UniswapV3LiquidityManager {
     }
 
     /**
-     * @notice Withdraw ERC20 tokens from the contract
-     * @param token Address of the token to withdraw
-     * @param recipient Address to receive the tokens
-     * @param amount Amount to withdraw
-     */
-    function withdrawERC20(
-        address token,
-        address recipient,
-        uint256 amount
-    ) external {
-        IERC20(token).safeTransfer(recipient, amount);
-    }
-
-    /**
      * @notice Retrieves the list of position IDs for a given user address.
      * @param user The address of the user whose position IDs are being queried.
      * @return positionIds The array of position IDs associated with the user.
