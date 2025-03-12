@@ -2,10 +2,10 @@
 pragma solidity ^0.8.18;
 
 import "forge-std/Test.sol";
-import "./mockUniswapPositionManager.sol";
+import "../src/UniswapPositionManager.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
-import {IUniswapV3NonfungiblePositionManager} from "../../src/interfaces/external/IUniswapV3NonfungiblePositionManager.sol";
+import {IUniswapV3NonfungiblePositionManager} from "../src/interfaces/IUniswapV3NonfungiblePositionManager.sol";
 
 contract UniswapV3LiquidityManagerTest is Test {
     UniswapV3LiquidityManager liquidityManager;
@@ -54,29 +54,29 @@ contract UniswapV3LiquidityManagerTest is Test {
         deal(WETH, owner, amount0);
         deal(USDC, owner, amount1);
 
-        // IERC20(WETH).approve(address(liquidityManager), amount0);
-        // IERC20(USDC).approve(address(liquidityManager), amount1);
+        IERC20(WETH).approve(address(liquidityManager), amount0);
+        IERC20(USDC).approve(address(liquidityManager), amount1);
 
-        // (uint256 tokenId, uint128 liquidity) = liquidityManager.mintLiquidity(
-        //     amount1,
-        //     amount0,
-        //     -887200,
-        //     887200,
-        //     10000
-        // );
-
-        UniswapV3LiquidityManager lm = UniswapV3LiquidityManager(
-            0xCa316852334D35b3FB94379a86a6EEfAca49F9F0
+        (uint256 tokenId, uint128 liquidity) = liquidityManager.mintLiquidity(
+            amount1,
+            amount0,
+            -887200,
+            887200,
+            10000
         );
-        // assertTrue(tokenId > 0, "Liquidity mint failed");
-        vm.prank(0x0DB63C9613b3BECf644A298AfECBa450795f612B);
+
+        // UniswapV3LiquidityManager lm = UniswapV3LiquidityManager(
+        //     0xCa316852334D35b3FB94379a86a6EEfAca49F9F0
+        // );
+        assertTrue(tokenId > 0, "Liquidity mint failed");
+        // vm.prank(0x0DB63C9613b3BECf644A298AfECBa450795f612B);
         IUniswapV3NonfungiblePositionManager(POSITION_MANAGER).approve(
             address(lm),
-            6061
+            tokenId
         );
 
         vm.prank(0x0DB63C9613b3BECf644A298AfECBa450795f612B);
-        lm.burnLiquidity(6061, 225820590370744789);
+        lm.burnLiquidity(tokenId, liquidity);
     }
 
     function testRebalanceLiquidity() public {
